@@ -52,17 +52,27 @@ exports.updateSensorSettings = async (req, res) => {
 
 exports.getLatestSensorSettings = async (req, res) => {
   try {
-    // Find the latest sensor settings
-    const sensorSettings = await SensorSettings.findOne().sort({ Timestamp: -1 });
+    const deviceName = req.query.deviceName; // Get the device name from the query parameter
+
+    // Check if deviceName is provided
+    if (!deviceName) {
+      return res.status(400).json({
+        status: 'Bad Request',
+        message: 'Device name is required',
+      });
+    }
+
+    // Find the latest sensor settings for the specified device
+    const sensorSettings = await SensorSettings.findOne({ DeviceName: deviceName }).sort({ Timestamp: -1 });
 
     if (sensorSettings) {
-      // Delete all sensor settings
-      await SensorSettings.deleteMany({});
+      // Delete all sensor settings for this device
+      await SensorSettings.deleteMany({ DeviceName: deviceName });
 
       // Respond with the latest sensor settings
       res.status(200).json({ status: 'OK', data: sensorSettings });
     } else {
-      res.status(404).json({ status: 'Not Found', message: 'No sensor settings found' });
+      res.status(404).json({ status: 'Not Found', message: `No sensor settings found for device: ${deviceName}` });
     }
   } catch (error) {
     res.status(500).json({ status: 'Internal Server Error', error: error.message });

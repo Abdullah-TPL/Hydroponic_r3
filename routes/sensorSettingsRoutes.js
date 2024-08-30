@@ -6,6 +6,6 @@ const SensorSettingsController = require('../controllers/sensorSettingsControlle
 router.post('/updatesensorsettings', SensorSettingsController.updateSensorSettings);
 
 // Route to get the latest sensor settings
-router.get('/getnewsensorsettings', SensorSettingsController.getLatestSensorSettings);
+router.get('/getsensorsettings', SensorSettingsController.getLatestSensorSettings);
 
 module.exports = router;
