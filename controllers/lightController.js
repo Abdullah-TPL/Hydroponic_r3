@@ -33,32 +33,41 @@ exports.updateLightTimer = async (req, res) => {
 
 exports.getLatestManualLightTimer = async (req, res) => {
   try {
-    // Find the latest document in the Light collection
-    const manualLightTimer = await Light.findOne().sort({ Timestamp: -1 });
+    const deviceName = req.query.deviceName; // Get the device name from the query parameter
+
+    // Check if deviceName is provided
+    if (!deviceName) {
+      return res.status(400).json({
+        status: 'Bad Request',
+        message: 'Device name is required',
+      });
+    }
+
+    // Find the latest document for the specified device in the Light collection
+    const manualLightTimer = await Light.findOne({ DeviceName: deviceName }).sort({ Timestamp: -1 });
 
     if (manualLightTimer) {
-      // Delete all documents from the Light collection
-      await Light.deleteMany({});
+      // Delete all documents for this device from the Light collection
+      await Light.deleteMany({ DeviceName: deviceName });
 
-      // Respond with the latest document's LightDuration
-      res.status(200).json({ 
-        status: 'OK', 
-        data: { 
+      // Respond with the latest document's LightDuration and DeviceName
+      res.status(200).json({
+        status: 'OK',
+        data: {
           manualLightTimer: manualLightTimer.LightDuration,
-          deviceName: manualLightTimer.DeviceName // Include DeviceName in response
-        } 
+          deviceName: manualLightTimer.DeviceName,
+        },
       });
     } else {
-      res.status(404).json({ 
-        status: 'Not Found', 
-        message: 'No Manual Light Timer setting found' 
+      res.status(404).json({
+        status: 'Not Found',
+        message: `No Manual Light Timer setting found for device: ${deviceName}`,
       });
     }
   } catch (error) {
-    res.status(500).json({ 
-      status: 'Internal Server Error', 
-      error: error.message 
+    res.status(500).json({
+      status: 'Internal Server Error',
+      error: error.message,
     });
   }
 };
-
