@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
 
         // Return the token and device name
         res.json({ 
-            username,
+            username: user.username,
             token, 
             devicename: user.devicename 
         });
