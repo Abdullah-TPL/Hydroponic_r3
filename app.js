@@ -6,6 +6,7 @@ require('dotenv').config();
 const sensorDataRoutes = require('./routes/sensorDataRoutes');
 const lightRoutes = require('./routes/lightRoutes');
 const SensorSettingsRoutes = require('./routes/sensorSettingsRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -22,6 +23,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use(sensorDataRoutes);
 app.use(lightRoutes);
 app.use(SensorSettingsRoutes);
+app.use(authRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
