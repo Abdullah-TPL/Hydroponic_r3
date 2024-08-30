@@ -3,20 +3,22 @@ const LightRecord = require('../models/LightRecord');
 const moment = require('moment-timezone');
 
 exports.updateLightTimer = async (req, res) => {
-  const { LightDuration } = req.body;
+  const { LightDuration,DeviceName  } = req.body;
   try {
     const timestamp = moment().tz('Asia/Karachi').toDate();
     
     // Insert into Light collection
     const result1 = await Light.create({
       LightDuration,
-      Timestamp: timestamp
+      Timestamp: timestamp,
+      DeviceName // Add DeviceName
     });
 
     // Insert into LightRecord collection
     const result2 = await LightRecord.create({
       LightDuration,
-      Timestamp: timestamp
+      Timestamp: timestamp,
+      DeviceName // Add DeviceName
     });
 
     res.status(200).json({
@@ -41,7 +43,10 @@ exports.getLatestManualLightTimer = async (req, res) => {
       // Respond with the latest document's LightDuration
       res.status(200).json({ 
         status: 'OK', 
-        data: { manualLightTimer: manualLightTimer.LightDuration } 
+        data: { 
+          manualLightTimer: manualLightTimer.LightDuration,
+          deviceName: manualLightTimer.DeviceName // Include DeviceName in response
+        } 
       });
     } else {
       res.status(404).json({ 
