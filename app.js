@@ -7,6 +7,7 @@ const sensorDataRoutes = require('./routes/sensorDataRoutes');
 const lightRoutes = require('./routes/lightRoutes');
 const SensorSettingsRoutes = require('./routes/sensorSettingsRoutes');
 const authRoutes = require('./routes/authRoutes');
+const deviceRoutes = require('./routes/devicesRoutes');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -24,6 +25,7 @@ app.use(sensorDataRoutes);
 app.use(lightRoutes);
 app.use(SensorSettingsRoutes);
 app.use(authRoutes);
+app.use(deviceRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

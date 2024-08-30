@@ -10,7 +10,8 @@ const SensorRecordsSchema = new mongoose.Schema({
   LightDuration: String,
   pH_Lo: String,
   pH_Up: String,
-  Timestamp: { type: Date, default: Date.now }
+  Timestamp: { type: Date, default: Date.now },
+  DeviceName: String, 
 });
 
 module.exports = mongoose.model('SensorRecords', SensorRecordsSchema);

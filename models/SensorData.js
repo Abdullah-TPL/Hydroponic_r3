@@ -10,7 +10,8 @@ const sensorDataSchema = new mongoose.Schema({
   FanTimer: String,
   TemperatureSetpoint: String,
   HumiditySetpoint: String,
-  Timestamp: { type: Date, default: Date.now }
+  Timestamp: { type: Date, default: Date.now },
+  DeviceName: String, 
 });
 
 module.exports = mongoose.model('SensorData', sensorDataSchema);

@@ -15,6 +15,7 @@ exports.updateSensorSettings = async (req, res) => {
     "EC low": EC_Lo,
     "EC high": EC_Up,
     "Light Duration": LightDuration,
+      DeviceName,
   } = req.body;
 
   try {
@@ -28,7 +29,8 @@ exports.updateSensorSettings = async (req, res) => {
       LightDuration,
       pH_Lo,
       pH_Up,
-      Timestamp: moment().tz('Asia/Karachi').toDate()
+      Timestamp: moment().tz('Asia/Karachi').toDate(),
+      DeviceName,
     };
 
     // Insert into SensorRecords collection
